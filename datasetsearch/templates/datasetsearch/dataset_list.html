@@ -1,0 +1,18 @@
+{% extends 'base.html' %} {% block main %}
+<div class="main-body">
+  {% block search_display %}
+  <div class="main">
+    <h1>Multi-platform ML Workbench</h1>
+    <p>{{csv_files}}</p>
+  </div>
+  {% endblock search_display %} {% block aside %}
+
+  <aside>
+    <div class="metrics">
+      <h1>Performance Metrics</h1>
+      <p>{{csv_files}}</p>
+    </div>
+  </aside>
+  {% endblock aside %}
+</div>
+{% endblock main %}

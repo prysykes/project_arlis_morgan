@@ -1,0 +1,52 @@
+{% block navtop %}
+<nav class="tm-navbar">
+  <ul class="main-ul-nav">
+    
+    <li id="show-task" class="show-task">
+      <span> &nbsp; Datasets + &nbsp; &nbsp; </span>
+      <ul class="services rounded-border">
+        <li id="show-search">Search Datasets &nbsp; &nbsp;</li>
+        <li id="show-search"> <a href="{% url 'view_dataset_kaggle' %}"> View your Datasets &nbsp; &nbsp; </a> </li>
+        
+      </ul>
+    </li>
+    <li id="show-task" class="show-task">
+      <span> &nbsp; Build + &nbsp; &nbsp; </span>
+      <ul class="services rounded-border">
+        <li><a href="#">Computer Vision</a></li>
+        <li><a href="">Speech Recognition</a></li>
+        <li>
+          <a href="{% url 'nlp_app'%}">Natural Language Processing</a>
+        </li>
+        <li><a href="{% url 'mltraining' %}">ML Training App</a></li>
+        <li><a href="">Auto ML</a></li>
+      </ul>
+    </li>
+    <li id="show-task" class="show-task">
+      <span> &nbsp; API Endpoints + &nbsp; &nbsp; </span>
+      <ul class="services rounded-border">
+        <li><a href="{% url 'object_detection_endpoint'%}">Object Detection</a></li>
+        <li><a href="{% url 'nlp_endpoint'%}">NLP</a></li>
+        <li>
+          <a href="{% url 'image_metadata_endpoint'%}">Image MetaData</a>
+        </li>
+        <li id="elastic_search_div"><a href="#">Elastic Search</a></li>
+      </ul>
+      
+    </li> 
+    {% if request.user.is_authenticated %}
+    <li class="arlis-logout">
+      <ul class="rounded-border">
+        <li>Hi! &nbsp; {{ request.user.first_name|title }}</li>
+        <!-- <li><a href="{% url 'dataset_list' %}">My Datasets</a></li> -->
+        <li id="logout"><a href="{% url 'user_logout' %}"> Logout </a></li>
+      </ul>
+    </li>
+
+    {% endif %}
+  </ul>
+  {% if request.user.is_authenticated %} {% endif %}
+  <p id="click-to-search">Click here to Search Datasets</p>
+</nav>
+
+{% endblock navtop%}

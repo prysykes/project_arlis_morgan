@@ -1,0 +1,307 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+   
+    <link rel="stylesheet" href="{% static '/css/styles.css'%}" />
+    <link rel="stylesheet" href="{% static '/css/vision.css'%}" />
+    <link rel="stylesheet" href="{% static '/css/forms.css'%}" />
+    <link rel="stylesheet" href="{% static '/css/nlp.css'%}" />
+    <link rel="stylesheet" href="{% static '/css/mltraining.css'%}" />
+    <link rel="stylesheet" href="{% static '/css/api_style.css'%}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    
+
+  </head>
+  <body>
+    {% block header %}
+    <header>
+      <div class="tm-main-nav">
+        <div class="nav-row">
+          <div class="logo-morgan">
+            <img
+              src="{{ STATIC_URL }}/static/media\logo\morgan-logo.png"
+              alt=""
+            />
+          </div>
+          <div class="nav-bar-main">{% include 'nav-bar.html' %}</div>
+          <div class="logo-arlis">
+            <img style="margin-top: 5px;"
+              src="{{ STATIC_URL }}/static/media\logo\UMD_ARLIS_logo.png"
+              alt=""
+            />
+          </div>
+        </div>
+        <div class="nav-row-mini">
+          <div class="logo-morgan">
+            <img
+              src="{{ STATIC_URL }}/static/media\logo\morgan-logo.png"
+              alt=""
+            />
+          </div>
+          <div class="nav-bar-main">{% include 'nav-bar.html' %}</div>
+          <div class="logo-arlis">
+            <img
+              src="{{ STATIC_URL }}/static/media\logo\UMD_ARLIS_logo.png"
+              alt=""
+            />
+          </div>
+        </div>
+      </div>
+    </header>
+
+    {%endblock header%} {% block section %}
+
+    <div class="main-wrapper">
+      <div id="django-messages">
+        {% block messages %}
+          {% if messages %}
+            {% for message in messages%}
+               <div style="color: red;"> {{message}} </div>
+            {% endfor %}
+          {% endif %}
+        {% endblock messages %}
+      </div>
+      <div class="mesg-menu">
+        <div id="django-messages-mobile">
+          {% block messages-mobile %}
+            {% if messages %}
+              {% for message in messages%}
+                 <span style="color: red;"> {{message}} </span>
+              {% endfor %}
+            {% endif %}
+          {% endblock messages-mobile %}
+        </div>
+
+        <div class="shiftright">
+          <input type="checkbox" name="" id="tm-menubar" />
+          <label for="tm-menubar"><i class="fas fa-bars"></i></label>
+        </div>
+      </div>
+      <div class="nav-bar-main">{% include 'nav-bar.html' %}</div>
+
+      {% block search %}
+      <div id="search-dataset" class="search-dataset display-none">
+        <form action="{% url 'search_dataset'%}" method="post" name="dataset_search"> {% csrf_token %}
+          <input
+            type="text"
+            name="searchkey"
+            id="search-input"
+            class="alis-pane-button"
+            placeholder="Enter KeyWord"
+          />
+          <select class="alis-pane-button" id="search-site" name="dtsite">
+            <option value="kaggle" name="kaggle">Kaggle</option>
+            <option value="datagov" name="datagov">Data.gov</option>
+            <option value="uci" name="uci">UCI</option>
+            <option value="googlepd" name="googlepd">GooglePD</option>
+            <option value="federated" name="googlepd">Federated Search</option>
+          </select>
+          
+          <input class="alis-pane-button" type="submit" value="Search Dataset">
+          
+        </form>
+      </div>
+      <div id="elastic_search" class="elastic_search display-none">
+        <div>
+          <span> Query by a single input </span> <br>
+          <span> Perform Sophiscated Query by combining inputs</span> <br>
+          <span> Date range format mm/dd/yyyy - mm/dd/yyyy</span> <br>
+        </div>
+        <span style="color: rgb(80, 8, 8); font-weight: bold;" id="date_error" class="display-none"> </span>
+        <form id="elastic_search_form" action="#" method="post" name="elastic_search_form"> {% csrf_token %}
+          <div id="object">
+            <label for="elas_object"> Object Name: </label>
+            <select class="alis-pane-button" name="elas_object" id="elas_object">
+              <option value="person">Person</option>
+              <option value="car">Car</option>
+              <option value="tvmonitor">Television</option>
+              <option value="Cup">Cup</option>
+              <option value="cell phone">Cell Phone</option>
+              <option value="chair">Chair</option>
+              <option value="boat">Boat</option>
+              <option value="">None</option>
+            </select>
+          </div>
+
+          <div id="latitude">
+            <label for="elas_lat"> Latitude: </label>
+            <input
+              type="text"
+              name="elas_lat"
+              id="elas_lat"
+              class="alis-pane-button"
+              placeholder="Latitude"
+            />
+          </div>
+          
+          <div id="longitude">
+            <label for="elas_long"> Longitude: </label>
+            <input
+              type="text"
+              name="elas_long"
+              id="elas_long"
+              class="alis-pane-button"
+              placeholder="Longitude"
+            />
+          </div>
+
+          <div id="radius">
+          <label for="elas_raduis"> Radius: </label>
+            <input
+              type="text"
+              name="elas_radius"
+              id="elas_radius"
+              class="alis-pane-button"
+              placeholder="Radius in km"
+            />
+          </div>
+
+          <div id="detections">
+            <label for="elas_det"> No. of Detections: </label>
+            <input
+              type="text"
+              name="elas_det"
+              id="elas_det"
+              class="alis-pane-button"
+              placeholder="Num of Detections"
+            />
+          </div>
+
+          <div id="area">
+            <label for="elas_area"> Object Size: </label>
+            <input
+              type="text"
+              name="elas_area"
+              id="elas_area"
+              class="alis-pane-button"
+              placeholder="Object area"
+              
+            />
+          </div>
+
+          <div id="start_date">
+            <label for="elas_start_date"> Start Date: </label>
+            <input
+              type="text"
+              name="elas_start_date"
+              id="elas_start_date"
+              class="alis-pane-button"
+              placeholder="start date"
+              onfocus="(this.type='date')"
+            />
+          </div>
+
+          <div id="end_date">
+            <label for="elas_end_date"> End Date: </label>
+            <input
+              type="text"
+              name="elas_end_date"
+              id="elas_end_date"
+              class="alis-pane-button"
+              placeholder="end date"
+              onfocus="(this.type='date')"
+            />
+          </div>
+
+          <div id="btn_elastic_search">
+            <input id="submit_elas_form" class="alis-pane-button" type="submit" value="Send Query"/>
+            
+          </div>
+          
+        </form>
+        
+        
+      </div>
+      {% endblock search %} {% block main %}
+      <div class="main-body">
+        {% block search_display %}
+        <div class="main">
+          
+            <h1 id="map_header" class="display-none">map location</h1>
+
+            <div id="map" class="display-none"></div>
+         
+          <h1>Elastic Search Results</h1>
+          <div id="elastic_search_results">
+
+            <!-- <div class="elastic_result">
+              {{image_url}}
+            </div>
+            <div class="elastic_result">
+              hehe
+            </div> -->
+
+          </div>
+          
+        </div>
+        {% endblock search_display %}
+        {% block aside %}
+
+        {% comment %} <aside>
+          <div class="metrics">
+            <h1>Performance Metrics</h1>
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ducimus
+              voluptatem velit aspernatur repudiandae error non impedit esse
+              sed, harum, dolor recusandae doloribus iste tenetur ullam
+              assumenda. Soluta at obcaecati modi!
+            </p>
+          </div>
+        </aside> {% endcomment %}
+        {% endblock aside %}
+      </div>
+      {% endblock main %} 
+      
+    </div>
+
+    {% endblock section %}
+    {% comment %} {% block footer %}
+    <div id="footer">Footer</div>
+    {% endblock footer%} {% endcomment %}
+
+    {% block scripts %}
+    <script>
+
+      function handleOnFocus(){
+        this.type='data';
+        this.width='200px'
+      }
+    </script>
+    <!-- <script>
+      var map = L.map('map').setView([39.36, 75.39], 13);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+    </script> -->
+    
+    <script src="{% static '/scripts/main.js' %}"></script>
+    <script src="{% static '/scripts/progress_bar.js' %}"></script>
+    <script src="{% static '/scripts/elastic_search.js' %}"></script>
+    
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="{% static '/scripts/map_handler.js' %}"></script>
+    <script>
+      //elastic search script
+      
+    </script>
+    <!-- <script>
+      
+    </script> -->
+    {% endblock scripts %}
+
+{% block downloadscript %}
+
+{% endblock downloadscript %}
+
+    
+  </body>
+</html>

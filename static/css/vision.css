@@ -1,0 +1,131 @@
+.train_img_display {
+    display: flex;
+    /* flex-wrap: wrap;
+    font-size: 30px;
+    text-align: center; */
+    
+}
+
+.vision-main {
+    align-items: center;
+    padding: 10px;
+}
+
+.vision-main h1 {
+    text-align: center;
+}
+
+.vision-navigator {
+    text-align: center;
+    padding: 5px;
+    margin-top: 3px;
+}
+
+#ul-vision-navigator li {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 2px;
+}
+
+#ul-detection-navigator{
+    text-align: left;
+}
+
+#view-detection-ul {
+    display: inline;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+  }
+#view-detection {display: inline-block;}
+#view-detection:hover ul {display: block;}
+#view-detection-ul {
+    position: absolute;
+    width: 200px;
+    display: none;
+  }
+#view-detection-ul li { 
+    display: block;
+    margin-top: 3px;
+  }
+.view-detection-button button {display:block !important;} 
+.view-detection-button:hover {background: #666;}
+
+#ul-detection-navigator li {
+    display: block !important;
+}
+
+.vision-navigator button {
+    border-radius: 20px;
+    color: white;
+    font-weight: 700;
+    font-size: medium;
+    background-color: rgb(31, 31, 64);
+    padding: 5px;
+}
+.botton-dot{
+    width: 10px;
+}
+
+.vision-navigator i{
+   align-content: center;
+   align-items: baseline;
+   margin-right: 3px;
+   
+}
+
+.direction-button button {
+    font-weight:300;
+    border-radius: 0px;
+    height: 1px;
+    width: 80px;
+}
+
+#vision_main_div div{
+    margin-top: 5px;
+}
+
+.instructions{
+    text-align: left;
+    padding: 10px;
+    
+}
+
+ol > li {
+    margin: 3px;
+}
+
+.train_img_display p {
+    padding: 10px;
+    flex: 50%;
+    border-radius: 20px;
+}
+
+.vision_img {
+    width: 400px;
+    height: 400px;
+}
+
+.plot_bar_img {
+    width: 600px;
+    height: 600px;
+}
+
+/* view_dataset_page styles */
+
+.download_dts {
+    border-radius: 20px;
+    color: rgb(15, 88, 15);
+    border: 2px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.delete_dts {
+    border-radius: 20px;
+    color: rgb(126, 5, 5);
+    border: 2px;
+    font-weight: bold;
+    cursor: pointer;
+
+}

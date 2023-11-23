@@ -1,0 +1,81 @@
+{% extends 'base.html' %} {% load static %} {% block main %}
+<div class="main-body">
+  {% block search_display %}
+
+  <div class="main" id="search_result_display_kaggle">
+    <h1> <span> {{owner}} - Dataset Search Results - click on a dataset to download </span> <span id="kaggle_filter">filter results</span></h1>
+    <div class="display-none" id="bar_container">
+      <progress id="progress_bar" value="0.02" max="1"></progress>
+      <!-- <div class="rounded-border" style="width: 0%; height: 20px; background-color: green;" id="progress_bar"></div> -->
+    </div>
+    <div id="result_filter" class="result_filter display-none">
+      
+      <input class="search_input rounded-border" type="text" id="in_ref" placeholder="filter by Ref">
+      <input class="search_input rounded-border" type="text" id="in_title" placeholder="filter by title">
+      <input class="search_input rounded-border" type="text" id="in_lastUpdated" placeholder="filter by lastUpdated">
+    </div>
+    {% for line in results %}
+    <p class="dataset_search_result_kaggle">{{line}}</p>
+    {% endfor %}
+  </div>
+
+  {% endblock search_display %}
+</div>
+{% endblock main %} {% block scripts %}
+<script src="{% static '/scripts/main.js' %}"></script>
+<script src="{% static '/scripts/datasetsearch_kaggle.js' %}"></script>
+<script src="{% static '/scripts/datasetsearch_kaggle_filter.js' %}"></script>
+{% endblock scripts %} {% block downloadscript %}
+<script>
+  const progress_bar = document.getElementById("progress_bar");
+  const bar_container = document.getElementById('bar_container')
+  function add_progress_chunks() {
+    //shows download progress bar
+    
+    final_load = 0.02;
+
+    progress_bar.value += final_load;
+  }
+  function download_the_dataset() {
+    //query DOM for all ref of returned dataset
+    var returned_dataset = document.querySelectorAll(".download_text");
+    
+    returned_dataset.forEach((td) => {
+      td.addEventListener("click", () => {
+        // pick the text of the ref for each returned dataset
+        let text = td.innerText; 
+        //console.log(progress_bar);
+        //console.log(bar_container);
+        add_bar_interval = setInterval(add_progress_chunks, 2000);
+        // calls the add_progress_chunks every 2000ms
+        bar_container.classList.remove('display-none')
+        // show the progress bar
+        url = `{% url 'download_dataset' %}?term=${text}`
+        // window.location = `{% url 'download_dataset' %}?term=${text}`; view_dataset_kaggle
+        const xhr = new XMLHttpRequest();
+        xhr.onprogress = function (event) {
+          
+          let ratio_downloaded = event.loaded/event.total;
+          console.log(event.loaded, event.total);
+          progress_bar.value = ratio_downloaded;
+          
+        };
+        xhr.onloadend = function (event) {
+          bar_container.classList.add('display-none')
+          if (add_bar_interval) {
+            clearInterval(add_bar_interval);
+          }
+          window.location = "{% url 'view_dataset_kaggle' %}"
+        };
+        
+
+        xhr.open('GET', url)
+        xhr.send()
+      });
+    });
+  }
+
+  download_the_dataset();
+</script>
+
+{% endblock downloadscript %}

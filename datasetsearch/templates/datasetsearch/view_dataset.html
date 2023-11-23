@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+<div class="main-body">
+    {% block search_display %}
+  
+    <div class="main" id="search_result_display_uci">
+      <h1> {{owner}} - Click on a DataSet to Download</h1>
+      <table border="0.5">
+        <tr>
+            <th>
+                S/N
+            </th>
+            <th>
+                DATASETS FROM - {{owner}}
+            </th>
+            
+            
+        </tr>
+        <tr>
+            <th colspan="2">
+               You currently have {{ kaggle|length }} - {{ owner }} datasets in your s3 bucket
+            </th>
+        </tr>
+        {% comment %} {% for csv in csv_files  %}
+            {% for filename, href in csv.items %}
+            <tr>
+                <td>
+                    {{ forloop.parentloop.counter }}
+                </td>
+                <td>
+                    <a href="{{ STATIC_URL }}/{{href}}" download> {{filename}} </a>
+                </td>
+               
+                
+            </tr>
+            
+            {% endfor %}
+                
+        {% endfor %} {% endcomment %}
+        {% for dataset in kaggle %}
+            <tr>
+                <td>
+                    {{ forloop.counter }}
+                </td>
+                <td>
+                   <span class="dts_container"> {{ dataset }} </span> &nbsp; &nbsp; &nbsp; <span class="download_dts"> Download </span> &nbsp; <span class="delete_dts"> Delete </span>
+                </td>
+            </tr>
+        {% endfor %}
+      </table>
+    </div>
+  
+    {% endblock search_display %}
+
+{% endblock main %}
+
+
+{% block scripts %}
+    <script src="{% static '/scripts/main.js' %}"></script>
+    <script src="{% static '/scripts/view_datasets.js' %}"></script>
+{% endblock scripts %}
+
+
+
+{% block downloadscript %}
+<script>
+    delete_dts = document.querySelectorAll('.delete_dts')
+
+    // console.log(delete_dts.lenght);
+
+    delete_dts.forEach((dts) => {
+        dts.addEventListener('click', (e) => {
+            e.preventDefault()
+            if (confirm("Are Sure You want to Delete this DataSet") == true){
+                console.log("OK Chosen");
+            } else {
+                console.log("Cancel clicked");
+            }
+            
+        })
+    });
+    
+</script>
+
+{% endblock downloadscript %}
+
+    
+
+
+

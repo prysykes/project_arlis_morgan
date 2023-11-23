@@ -1,0 +1,40 @@
+{% extends 'base.html' %} {% load static %} {% block main %}
+<div class="main-body">
+  {% block federated %}
+
+  <div class="main" id="search_result_display_federated">
+    <h1>{{owner}} - Dataset Search Results - click on a dataset to download</h1>
+    <table class="result_table"></table>
+    <div id="pre_data">
+      {% for key, value in federated_results %}
+      <p class="dataset_search_result_federated">
+        <span class="dts_full"> {{value}} </span>
+        <span class="dts_source"> {{key}}</span>
+      </p>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% endblock federated %}
+</div>
+{% endblock main %} {% block scripts %}
+<script src="{% static '/scripts/main.js' %}"></script>
+<script src="{% static '/scripts/datasetsearch_federated.js' %}"></script>
+{% endblock scripts %} {% block downloadscript %}
+<script>
+  // THIS SCRIPT COMES IN SECOND PHASE
+  // function download_dataset_uci(){
+  //     let returned_dataset = document.querySelectorAll(".download_text")
+  //     returned_dataset.forEach(td => {
+  //         let text = td.innerText
+  //         td.addEventListener('click', () =>{
+  //             console.log(text)
+  //             window.location = `{% url 'downlaod_dataset_uci' %}?term=${text}`
+  //         })
+
+  //     })
+  // }
+  // download_dataset_uci()
+</script>
+
+{% endblock downloadscript %}

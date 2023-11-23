@@ -1,0 +1,5 @@
+MAILTO=""
+* * * * * ec2-user bash /home/ec2-user/sync_sm_notebooks.sh > /tmp/sync_sm_notebooks.log 2>&1
+
+
+

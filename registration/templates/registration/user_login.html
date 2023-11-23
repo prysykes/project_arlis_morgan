@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block main %}
+      <div class="main-body">
+        <div class="main-login">
+          <h1>Enter your login information below to continue using the application</h1>
+          <div id="p-login-form">
+            <form id="login-form" action="" method="POST">
+              {% csrf_token %}
+              <div class="form-column">
+                <div class="form-row">
+                  <h3> Login to Your Account</h3>
+                  <hr>
+                </div>
+                <div class="form-row">
+                  <div class="row-align" > 
+                    <label  for="username"> Username</label>
+                    <input  type="text" name="username" id="tm-username"> 
+                  </div>
+                  <div class="row-align"> 
+                    <label for="password"> Password </label>
+                    <input type="password" name="password" id="tm-password"> 
+                  </div>
+                </div>
+                <div  class="form-row row-align">
+                  <label for="submit"></label>
+                  <input class="alis-button" type="submit" value="Login to your account">
+                </div>
+
+                <div class="form-row row-align">
+                  
+                </div>
+              </div>
+
+            </form>
+            <div class="form-row row-align">
+              <label style="font-size:x-small;"  for="username"> Don't have an account yet?</label>
+              <a href="{% url 'user_registration' %}"> <button class="alis-button" id="create-account">Create an Account</button> </a>
+              
+              
+            </div>
+          </div>
+        </div>
+        {% block aside %}
+
+        <!-- <aside>
+          <div class="imp-updates">
+            <h1>Important Messages</h1>
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ducimus
+              voluptatem velit aspernatur repudiandae error non impedit esse
+              sed, harum, dolor recusandae doloribus iste tenetur ullam
+              assumenda. Soluta at obcaecati modi!
+            </p>
+          </div>
+        </aside> -->
+        {% endblock aside %}
+      </div>
+      {% endblock main %}

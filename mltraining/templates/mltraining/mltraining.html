@@ -1,0 +1,148 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block messages %} 
+{% endblock messages %} 
+{% block main %}
+<div class="mltraining-main">
+  
+  <div class="vision-navigator">  
+    <h1>Welcome to the trainer app</h1>   
+    <div>
+      {% block messages_image_upload %}
+        {% if messages %}
+          {% for message in messages %}
+            <div style="color: rgb(0, 0, 0)">{{message}}</div>
+          {% endfor %} {% endif %} 
+      {% endblock messages_image_upload %}
+    </div>
+  </div>
+
+  <div class="vision-navigator">
+    <div id="task_manager">
+      <h2> Task Manager </h2>
+      <ul id="ul-vision-navigator" class="vision-navigator">
+        {% if instance_status == 'In Service' %}
+        <li> <button id="delete_instance" class="alis-pane-button"> Delete Sagemaker Instance </button> <i class="botton-dot"> <button></button></i></li>
+        {% else %}
+        <li> <a href="{% url 'launch_instance' %}"> <button id="launch_instance" class="alis-pane-button"> Launch Sagemaker Instance </button> <i class="botton-dot"> <button></button></i> </a> </li>
+        {% endif %}
+        
+        <li> <button id="upload_notebook" class="alis-pane-button"> Upload Jupyter Notebook</button> <i class="botton-dot"> <button></button></i></li>
+        <li> <button id="select_classifier" class="alis-pane-button"> Select Classifier/Model</button> <i class="botton-dot"> <button></button></i></li>
+        <li><button id="uploaded_dataset" class="alis-pane-button"> Upload Dataset</button> </li>
+      </ul>
+      <div class="task_form_display">
+        <p>
+          <div id="upload_notebook_form" class="display-none">
+            <form class="mltraining_forms" id="jupyter_notebook_upload_form" method="post" enctype="multipart/form-data" action="{% url 'upload_file' %}">
+              {% csrf_token %}
+              <label for="file">Upload a Jupyter Notebook file:</label>
+              <input type="file" name="file" id="file">
+              
+              <button type="submit">Upload</button>
+            </form>
+          </div>
+          <div id="choose_classifier_form" class="display-none">
+            <form class="mltraining_forms" method="post" enctype="multipart/form-data" action="{% url 'classify_images' %}">
+              {% csrf_token %}
+              <label for="images">Upload one or more image files:</label>
+              <input type="file" name="images" id="images" multiple>
+              <br><br>
+              <label for="classifier">Select Classifier Model:</label>
+              <select name="classifier" id="classifier">
+                <option value="classifier1">Pretrained Model</option>
+                <option value="classifier2">Transfer Learning Model</option>
+              </select>
+              <br><br>
+              <button type="submit">Submit</button>
+            </form>
+          </div>
+          <div id="upload_dataset_form" class="display-none">
+              <form class="mltraining_forms" method="post" enctype="multipart/form-data" action="{% url 'upload_dataset' %}">
+              {% csrf_token %}
+                <label for="file">Upload a .tar.gz dataset file:</label>
+                <input type="file" name="file" id="file">
+                <br><br>
+                <button type="submit">Upload</button>
+                </form>
+              
+                {% if metadata %}
+                <h2>Dataset Metadata</h2>
+                <ul>
+                {% for label, count in metadata %}
+                    <li><strong>{{ label }}</strong>: {{ count }} images</li>
+                {% endfor %}
+                </ul>
+                <p>...</p>
+                <form method="post" action="{% url 'start_transfer_learning' %}">
+                {% csrf_token %}
+                <button type="submit">Start Transfer Learning Training</button>
+                </form>
+                {% else %}
+                <p>No dataset metadata available.</p>
+              {% endif %}
+          </div>
+        </p>
+      </div>
+    </div>
+
+    <div>
+      <h2>Instance Information</h2>
+      <p>
+        {% comment %} <a href="{% url 'notebook_status' %}" id="notebook-status-link">Check Sagemaker Notebook Instance Status</a> {% endcomment %}
+    
+        {% if iam_role %}
+            Your IAM role for the training app is: {{iam_role}}
+      <br><br>
+        {% else %}
+          IAM Role does not exist
+          <br><br>
+        {% endif %}
+        Instance Status:
+        <p id="instance-status">Instance Status: {{ instance_status }}</p>
+
+
+        {% if instance_status == 'In Service' %}
+        <a href="{% url 'open_jupyterlab' %}" target="_blank">Open Jupyter Notebook</a> 
+          <!-- <br><br>
+          <a href="{% url 'delete_instance' %}" onclick="return confirm('Are you sure you want to delete this instance?')">Delete Sagemaker Notebook Instance</a> -->
+        {% endif %}
+      </p>
+    </div>
+    <div>
+      
+      <h2> Latest Predictions | Training Status: {{ training_status }} </h2>
+      {% if latest_predictions %}
+      <p>
+        <ul class="container">
+          {% for prediction in latest_predictions %}
+            <li>
+              <div class="label"><span>Predicted Label:</span> {{ prediction.predicted_label }}</div>
+              <img src="{{ prediction.image.url }}" alt="prediction image">
+            </li>
+          {% endfor %}
+        </ul>
+      </p>
+      {% endif %}
+    </div>
+    <div>
+      {% if model_summary %}
+        <h3> Model Summary </h3>
+        <p>
+          <pre>{{ model_summary }}</pre>
+        </p>
+      {% else %}
+          <p>No model summary available.</p>
+      {% endif %}
+    </div>
+    
+  </div>
+
+</div> 
+{% endblock main %} 
+ 
+{% block scripts %}
+<script src="{% static '/scripts/main.js' %}"></script>
+<script src="{% static '/scripts/mltraining.js' %}"></script>
+
+{% endblock scripts %}

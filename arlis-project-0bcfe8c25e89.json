@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "arlis-project",
+  "private_key_id": "0bcfe8c25e89355110c89612eef4dbfc0173ee91",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEuwIBADANBgkqhkiG9w0BAQEFAASCBKUwggShAgEAAoIBAQCpq4GJhwxGE/VI\ngfkvoEEgW4UVn9IG726ZCElGocTDl/1s96xEch4KVIfOmDzrPs9I6wWjN+Wdwh9t\nBkorDAstl4xlRGz9pGTUMJUZ5KpwwTDK1OK8jAQnO0aMJ4BkheLQRkebo4ywnPrv\n4pHhPVX5qyL5fnpgzgwiXAISgvbo9L9gRiLl6xMCKp7mS+PhA7YIR8HmiYVA80MM\nIluSNwfbF2odyB1tB652/s4TBe2M0Mkfr9KSe+V6rTErKwUqCznNHKApe0jMIrlM\nyv/D9Jdr3z3dzZ2GGQfwDuLQSHAyd6lz7AgDlLAJ8wmrQvn8Lp5RTShSVbsVCvbF\nj8wGbcEBAgMBAAECgf9w6xNq09X3TZEQkG+moqC1SDNqENNWikKw1jLuLvsksSKY\nQr0DUG9tsJQximAAr+yEOuWlmq3WMDt585Wo0Hsf/JwTSVa/94ijLzIL6YMFR42R\nb9z2Xrjk4y4wWJm6TOCGfD9r9YzMfa0DuWYc4RU29A5yvRn1EyxAMbuvVjm9DxBM\nSPYp9w3SsfS37vt8I0BF6cP1R/YqECrMbv1uLJSOOw3H/BilWriqf3QB4T5Lqkl/\nUDF+6N0s9dHsEuzHZl0nMDypoLx9UdL8IjYeiafhAgRHGjb7xknOc83mUQvN4bV+\nXZCTd0O3zMW2w7B65xYfY4x+3+9jAjk8PT0atKECgYEA1iD/La27A6f12bj+Kih8\neyLULYIqoiN7/HMCTpFbabYs+3kCW5d9kTcg5K20eg6ma5d+xWD5NBR4nNetEBa0\niN0e/JDYWxm2AI+K1L020wyaHv0iuwsjxR8YHdQnz3jTHJk/ArhE3w92gKde/LXh\nqcHbGWK8Ot53luNX7KhXq1ECgYEAytj0TWJesBHld1xsyi8M+supPQ+X6uXVcICO\nnpTNU8wsMWVrOUee+VhUb338XgFm6EZ9xYuChzMBr7yksL30nzPnRAgHkIyWsqWm\nDDgjt1mTyV2Tyz/Peen1Sc8OfZvjQzpaSrAgKVqN1E+G+bba2Rm4C7qPpoLqW5Kj\nWF8b7rECgYAf8OwftDqhYPybbaz8PO3UsG1WHISfiwuDrOQ7NBOewT4UhQiFASQJ\n9V9CvWaejnDku8R9TOnfiu4y9zkpnTlw8QseQb0EWeF8U+0xrsfu04Jp/PihThgX\n33uJd4w4tp1HNtTfYv1jCLt0lYLlz3vKBtDYCJJrdaQBLgh/lNz/AQKBgGEoNStz\neGLgz4WyMTFOA+uD7NWgSGVsHCU8jhMKtqXyXyBxsT/IPC61zgtwzpXAGigay1b5\nEVXsalxgAInfEfHHDHgbWHQ1wmBi0vt7UDAbqZuDRKzPLXL5SlFF6WzkY5/prSGk\n5mKoStJsHPwyRvRBS1Pi0bcxcUrXG4HSXDChAoGBALKoNioKZtPcZigOAwn83P/H\n/ArINk3vLl2Pt0lxGzPQoFiX+zUrh1lWPvDWLxqqjZZJqdbpO6/m4Evx74KTPSAq\nT6D2XZqc4a6z9vlxByhO0HjsQ+ukTy7JevKHQr4x+5uE39oDCFCCswzd0dxENqiV\nCKTyn564VKPutrdBZsC9\n-----END PRIVATE KEY-----\n",
+  "client_email": "emeka-arlis@arlis-project.iam.gserviceaccount.com",
+  "client_id": "117356197145657167605",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/emeka-arlis%40arlis-project.iam.gserviceaccount.com"
+}

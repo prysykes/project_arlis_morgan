@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block main %}
+      <div class="main-body">
+        <div class="main-login">
+          <h1>Complete the form below to create an account</h1>
+          <div id="p-signup-form">
+            <form  action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+              <div class="form-column">
+                <div class="form-row">
+                  <h3> Login Information</h3>
+                  <hr>
+                </div>
+                <div class="form-row">
+                  <div class="row-align" > 
+                    <div>{{userreg_form.title.label}} </div>
+                    <div> {{userreg_form.title}}</div>
+                  </div>
+                  <div class="row-align"> 
+                    <div>{{registration_form.first_name.label}} </div>
+                    <div> {{registration_form.first_name}}</div>  
+                  </div>
+                  <div class="row-align"> 
+                    <div>{{registration_form.last_name.label}} </div>
+                    <div> {{registration_form.last_name}} </div>  
+                  </div>
+                  <div class="row-align"> 
+                    <div>{{registration_form.username.label}} </div>
+                    <div> {{registration_form.username}} </div>  
+                  </div>
+                  <div class="row-align"> 
+                    <div>{{registration_form.email.label}} </div>
+                     <div> {{registration_form.email}} </div>  
+                  </div>
+                  <div class="row-align"> 
+                    <div>{{registration_form.password1.label}} </div>
+                    <div> {{registration_form.password1}} </div> 
+                  </div>
+                  <div class="row-align"> 
+                    <div>{{registration_form.password2.label}} </div>
+                    <div> {{registration_form.password2}} </div> 
+                  </div>
+                </div>
+                <div class="form-row row-align">
+                  <label style="font-size:x-small;"  for="signup"> Create Account</label>
+                  <input name="signup" class="alis-button" type="submit" value="Sign-Up"> 
+                 
+                </div>
+                
+              </div>
+
+            </form>
+            
+          </div>
+          
+        </div>
+        {% block aside %}
+
+        <!-- <aside>
+          <div class="imp-updates">
+            <h1>Important Messages</h1>
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ducimus
+              voluptatem velit aspernatur repudiandae error non impedit esse
+              sed, harum, dolor recusandae doloribus iste tenetur ullam
+              assumenda. Soluta at obcaecati modi!
+            </p>
+          </div>
+        </aside> -->
+        {% endblock aside %}
+      </div>
+      {% endblock main %}

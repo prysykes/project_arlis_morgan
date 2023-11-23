@@ -1,0 +1,210 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block messages %} 
+{% endblock messages %} 
+{% block main %}
+      <div class="vision-main">
+        <h1 > Computer Vision Demostration Page </h1>
+        <div class="vision-navigator"> 
+          <ul id="ul-vision-navigator">
+            <li> <button id="upload_images" class="alis-pane-button"> Upload Image</button> <i class="botton-dot"> <button></button></i></li>
+            <li><button id="view_uploaded_images" class="alis-pane-button"> View Uploaded Images</button> <i class="botton-dot"> <button></button></i> </li>
+            <li> <a href="{% url 'run_detection' %}?term=yolo-aws"> <button id="yolo-aws" class="alis-pane-button" > Run Object Detection</button> </a> <i class="botton-dot"> <button></button></i> </li>
+            <li>
+              
+              <ul >
+                <li id="view-detection">
+                  <i><button> View Detections</button> <i class="botton-dot"> <button></button></i> </i>
+                  <ul id="view-detection-ul">
+                    <li id="view_detections_yolo" ><button class="view-detection-button"> View Detections Yolo</button></li>
+                    <li id="view_detections_aws" ><button class="view-detection-button"> View Detections AWS</button></li>
+                    <li id="view_detections_azure" ><button class="view-detection-button"> View Detections Azure</button></li>
+                  </ul>
+                </li>
+              </ul>
+              
+            </li>
+            <li> <a href="{% url 'evaluate_performance' %}?term=gt-yolo-aws"> <button id="evalute-performance" class="alis-pane-button" > Evaluate Performance </button> </a>  <i class="botton-dot"> <button></button></i> </li>
+            <li> <button id="group_bar_graph" class="alis-pane-button" > View Bar Plot</button> <i class="botton-dot"> <button></button></i></li>
+            <li><a href=" {% url 'f1_score' %} "><button id="f1_score" class="train_img_display"> View F1-Score </button> </a> </li>
+          </ul>
+          {% block messages_image_upload %}
+            {% if messages %}
+              {% for message in messages %}
+                <div style="color: rgb(0, 0, 0)">{{message}}</div>
+              {% endfor %} {% endif %} 
+          {% endblock messages_image_upload %}
+        </div>
+        <div id="upload_form" class="display-none">
+        <form
+          action="{% url 'upload_images_csv' %}"
+          method="POST"
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %}
+          <label for="" class="form-label">Select test image files</label>
+          <input
+            type="file"
+            multiple
+            name="uploadimgfiles"
+            class="alis-pane-button"
+          />
+          <label for="" class="form-label">Select ground truth csv file</label>
+          <input type="file" name="uploadcsvfile" class="alis-pane-button" />
+          <button type="submit" class="alis-pane-button">Upload files</button>
+        </form>
+      </div>
+      <div id="img_disp_parent">
+        <div id="img_disp" class="train_img_display">
+          
+        </div>
+      </div>
+      <div id="img_detect_disp_parent">
+      <div style="text-align:center" id="img_detect_disp" class="train_img_display">
+      </div>
+        
+      </div>
+      <div id="plot_img_disp_parent">
+        <div  class="train_img_display">
+          <p id="plot_img_disp"></p>
+        </div>
+      </div>
+      <div id="f1_score" class="train_img_display">
+        <!-- <a href=" {% url 'f1_score' %} "> <h3>View F1 Score </h3> </a>  -->
+      </div>
+      </div>
+  {% endblock main %} 
+ {% block scripts %}
+<script src="{% static '/scripts/main.js' %}"></script>
+<script src="{% static '/scripts/vision.js' %}"></script>
+<script>
+  // <a href="{% url 'view_uploaded_images'%}">
+  function populate_images(data, img_disp_parent, img_disp) {
+    img_disp.innerHTML = ""; //removed every item in the node prior to appending the childnodes
+    
+    
+    
+    // const h1 = document.createElement('h1');
+    // const h1_text = document.createTextNode("Uploaded Images")  
+    // h1.appendChild(h1_text)
+    
+    data["images"].forEach((element) => {
+      let p = document.createElement("p");
+      let img = document.createElement("img");
+      img.classList.add("vision_img");
+      img.setAttribute("src", `/media/test_images/${element}`);
+      img.setAttribute("alt", "training_image");
+      p.appendChild(img);
+      img_disp.appendChild(p);
+    });
+    // img_disp_parent.insertBefore(h1, img_disp_parent.firstChild)
+  }
+  const view_images = document.getElementById("view_uploaded_images");
+  function retrieve_images() {
+    const img_disp_parent = document.getElementById('img_disp_parent')
+    const img_disp = document.getElementById("img_disp");
+    view_images.addEventListener("click", () => {
+      img_disp_parent.classList.toggle('display-none')
+      fetch("{% url 'view_uploaded_images'%}")
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          populate_images(data, img_disp_parent, img_disp);
+        });
+    });
+  }
+
+  retrieve_images();
+</script>
+<script>
+  function render_bar_plot(data, plot_img_disp_parent, disp_plot_img){
+    
+    disp_plot_img.innerHTML = "";
+    // const h1 = document.createElement('h1');
+    // const h1_text = document.createTextNode("Object Detection Summary per Platform")  
+    // h1.appendChild(h1_text)
+    // plot_img_disp_parent.insertBefore(h1, plot_img_disp_parent.firstChild)
+    let img = document.createElement('img')
+    img.classList.add("plot_bar_img");
+    img.setAttribute("src", `/media/plot_figures/${data}`)
+    img.setAttribute('alt', 'Group Bar Plot')
+    
+    
+    plot_img_disp.appendChild(img)
+
+  }
+  
+  function retrieve_bar_plot(){
+    const plot_img_disp_parent = document.getElementById('plot_img_disp_parent')
+    const disp_plot_img = document.getElementById('plot_img_disp')
+    group_bar_graph.addEventListener('click', ()=>{
+      plot_img_disp_parent.classList.toggle('display-none')
+      fetch("{% url 'view_bar_plot'%}")
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data['bar_plot']);
+          render_bar_plot(data['bar_plot'], plot_img_disp_parent, disp_plot_img)
+        })
+    })
+  }
+  retrieve_bar_plot()
+</script>
+<script>
+  const view_detections_yolo = document.getElementById("view_detections_yolo");
+  const view_detections_aws = document.getElementById("view_detections_aws");
+  const view_detections_azure = document.getElementById("view_detections_azure");
+
+  function show_detections(data, img_detect_disp_parent, img_detect_disp, name) {
+    
+    img_detect_disp.innerHTML = ""; //removed every item in the node prior to appending the childnodes
+    // const h1 = document.createElement('h1');
+    // const h1_text = document.createTextNode("Yolo Detections with Bounding Boxes")  
+    // h1.appendChild(h1_text)
+    // img_detect_disp_parent.insertBefore(h1, img_detect_disp_parent.firstChild) // inserts the h1 before image display
+    data["images_with_box"].forEach((element) => {
+      let p = document.createElement("p");
+      let img = document.createElement("img");
+      img.classList.add("vision_img");
+      if (name == 'yolo'){
+        img.setAttribute("src", `/media/result_yolo/${element}`);
+      }
+      else if(name == 'aws'){
+        img.setAttribute("src", `/media/result_aws/${element}`);
+      }
+      
+      img.setAttribute("alt", "detection_image");
+      p.appendChild(img);
+      img_detect_disp.appendChild(p);
+    });
+  }
+  function retrieve_images_with_boxes() {
+    const img_detect_disp_parent = document.getElementById('img_detect_disp_parent')
+    const img_detect_disp = document.getElementById("img_detect_disp");
+    view_detections_yolo.addEventListener("click", () => {
+      name = 'yolo'
+      img_detect_disp_parent.classList.toggle('display-none')
+      fetch("{% url 'read_yolo_result' %}")
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          
+          show_detections(data, img_detect_disp_parent, img_detect_disp, name);
+        });
+    });
+
+    view_detections_aws.addEventListener('click', ()=> {
+      name = 'aws'
+      img_detect_disp_parent.classList.toggle('display-none')
+      fetch("{% url 'read_aws_result' %}")
+        .then((response) => response.json())
+        .then((data) => {
+
+          console.log(data);
+          show_detections(data, img_detect_disp_parent, img_detect_disp, name);
+        })
+    })
+  }
+
+  retrieve_images_with_boxes();
+</script>
+{% endblock scripts %}

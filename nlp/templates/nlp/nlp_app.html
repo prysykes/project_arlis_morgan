@@ -1,0 +1,83 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block messages %} 
+{% endblock messages %} 
+{% block main %}
+      <div class="nlp-main">
+        <h1 > Sentiment Analysis- </h1>
+        <div class="nlp-navigator"> 
+          <ul id="ul-nlp-navigator">
+            <li> <button id="upload_csv" class="alis-pane-button"> Upload CSV File</button> <i class="botton-dot"> <button></button></i></li>
+            <li><a href="{%url 'view_uploaded_csv' %}"> <button id="view_uploaded_CSV" class="alis-pane-button"> View Uploaded CSV</button></a> <i class="botton-dot"> <button></button></i> </li>
+            <li> <a href="{% url 'run_analysis' %}"> <button id="run-analysis" class="alis-pane-button" > Run Sentiment Analysis</button> </a> <i class="botton-dot"> <button></button></i> </li>
+            <li> <a href="{% url 'evaluate_performance' %}?term=gt-yolo-aws"> <button id="benchmark-results" class="alis-pane-button" > View Benchmark Results </button> </a>   </li>
+          </ul>
+          {% block messages_nlpcsv_upload %}
+            {% if messages %}
+              {% for message in messages %}
+                <div style="color: rgb(0, 0, 0)">{{message}}</div>
+              {% endfor %} {% endif %} 
+          {% endblock messages_nlpcsv_upload %}
+        </div>
+        <div id="upload_form" class="">
+          <form
+            action="{% url 'upload_nlp_csv' %}"
+            method="POST"
+            enctype="multipart/form-data"
+          >
+            {% csrf_token %}
+            
+            <label for="" class="form-label">Select CSV File</label>
+            <input type="file" name="uploadcsvfile" class="alis-pane-button" />
+            <button type="submit" class="alis-pane-button">Upload file</button>
+            
+          </form><button id="hide_df" class="alis-pane-button">Hide Dataframe</button>
+        </div>
+        <!-- <div> {{ df }} </div> -->
+        <div class="df_view">
+          <div class="inspect_df">
+            {% for row in csv_rows %}
+              
+                <p class="df_row">{{ row }} </p>
+                <p id="df_row_table"> </p>
+                
+            {% endfor %}
+          </div>
+          <div class="pagination">
+            <span class="step-links">
+                {% if csv_rows.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ csv_rows.previous_page_number }}">previous</a>
+                {% endif %}
+        
+                <span class="current">
+                    Page {{ csv_rows.number }} of {{ csv_rows.paginator.num_pages }}.
+                </span>
+        
+                {% if csv_rows.has_next %}
+                    <a href="?page={{ csv_rows.next_page_number }}">next</a>
+                    <a href="?page={{ csv_rows.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+          </div>
+        </div>
+        
+        <div id="img_disp_parent">
+          <div id="benchmark_metrics" class="train_img_display">
+            <h2> Benchmark Metrics View </h1>
+                <div id="benchmark_div"> {% autoescape off %} {{ chart }} {% endautoescape %} </div>
+          </div>
+
+          <div id="processing_time" class="train_img_display">
+            <h2> Processing Time Benchmark</h2>
+            <div id="processing_time_div"> {% autoescape off %} {{ chart2 }} {% endautoescape %}</div>
+          </div>
+        </div>
+        
+      </div>
+  {% endblock main %} 
+ {% block scripts %}
+<script src="{% static '/scripts/main.js' %}"></script>
+<script src="{% static '/scripts/nlp_main.js' %}"></script>
+
+{% endblock scripts %}

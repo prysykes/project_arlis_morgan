@@ -1,0 +1,59 @@
+#prediction_display{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#prediction_display > div {
+    margin-right: 2px;
+    border: 1px solid rgb(31, 31, 64);
+    padding: 2px;
+    border-radius: 30px;
+}
+
+.mltraining_forms {
+
+}
+
+#jupyter_notebook_upload_form {
+
+}
+
+.mltraining-main {
+    align-items: center;
+    padding: 10px;
+    
+}
+
+.mltraining-main h1 {
+    text-align: center;
+}
+
+.mltraining_forms button{
+    border: solid rgb(31, 31, 64) 2px;
+   
+    width: fit-content;
+    height: fit-content;
+    padding: 6px;
+    font-size:small;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 5;
+    background-color: initial;
+    color: rgb(31, 31, 64);;
+}
+
+h2{
+    
+    color: rgb(31, 31, 64);
+    border-bottom: solid rgb(31, 31, 64) 1px;
+    padding: 2px;
+    font-size:large;
+    margin: 0 2px 2px 0;
+}
+
+p {
+    margin-top: 10px;
+}
+
+

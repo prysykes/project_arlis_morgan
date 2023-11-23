@@ -1,0 +1,75 @@
+{% extends 'base.html' %} {% load static %} {% block main %}
+<div class="main-body">
+  {% block search_display %}
+
+  <div class="main" id="search_result_display_uci">
+    <h1>{{owner}} - Dataset Search Results - click on a dataset to download</h1>
+    <div class="display-none" id="bar_container">
+      <progress id="progress_bar" value="0.02" max="1"></progress>
+      <!-- <div class="rounded-border" style="width: 0%; height: 20px; background-color: green;" id="progress_bar"></div> -->
+    </div>
+    {% for tr in results.values %}
+    <p class="dataset_search_result_uci">{{tr}}</p>
+    {% empty %}
+    <p>No match found for your search</p>
+    {% endfor %}
+  </div>
+
+  {% endblock search_display %}
+</div>
+{% endblock main %} {% block scripts %}
+<script src="{% static '/scripts/main.js' %}"></script>
+<script src="{% static '/scripts/datasetsearch_uci.js' %}"></script>
+{% endblock scripts %} {% block downloadscript %}
+<script>
+  // THIS SCRIPT COMES IN SECOND PHASE
+  const progress_bar = document.getElementById("progress_bar");
+  const bar_container = document.getElementById('bar_container')
+  function add_progress_chunks() {
+    
+    final_load = 0.02;
+
+    progress_bar.value += final_load;
+  }
+  function download_dataset_uci() {
+    let returned_dataset = document.querySelectorAll(".download_text");
+    
+    returned_dataset.forEach((td) => {
+      var text = td.innerText;
+      td.addEventListener("click", () => {
+        //console.log(progress_bar);
+        console.log(bar_container);
+        bar_container.classList.remove('display-none') //show th progress bar
+        add_bar_interval = setInterval(add_progress_chunks, 2000)
+        url = `{% url 'downlaod_dataset_uci' %}?term=${text}`;
+        const xhr = new XMLHttpRequest();
+        
+
+        xhr.onprogress = function (event) {
+          
+          let percentage_downloaded = event.loaded / event.total
+          console.log(event.loaded, event.total, percentage_downloaded);
+          progress_bar.value = percentage_downloaded;
+        };
+
+        xhr.onloadend = function (event) {
+          bar_container.classList.add('display-none')
+          if (add_bar_interval) {
+            clearInterval(add_bar_interval);
+          }
+          window.location = "{% url 'view_dataset_uci' %}"
+        };
+
+        xhr.open('GET', url);
+        // xhr.open("GET", "{{ STATIC_URL }}/static/media\\mmsong.mp3");
+
+        xhr.send();
+      });
+    });
+  }
+  
+
+  download_dataset_uci();
+</script>
+
+{% endblock downloadscript %}

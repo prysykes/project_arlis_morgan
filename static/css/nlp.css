@@ -1,0 +1,116 @@
+.train_img_display {
+    display: flex;
+    /* flex-wrap: wrap;
+    font-size: 30px;
+    text-align: center; */
+    
+}
+
+.nlp-main {
+    align-items: center;
+    padding: 10px;
+}
+
+.nlp-main h1 {
+    text-align: center;
+}
+
+.nlp-navigator {
+    text-align: center;
+    padding: 5px;
+    margin-top: 3px;
+}
+
+#ul-nlp-navigator li {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 2px;
+}
+
+#ul-detection-navigator{
+    text-align: left;
+}
+
+#view-detection-ul {
+    display: inline;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+  }
+#view-detection {display: inline-block;}
+#view-detection:hover ul {display: block;}
+#view-detection-ul {
+    position: absolute;
+    width: 200px;
+    display: none;
+  }
+#view-detection-ul li { 
+    display: block;
+    margin-top: 3px;
+  }
+.view-detection-button button {display:block !important;} 
+.view-detection-button:hover {background: #666;}
+
+#ul-detection-navigator li {
+    display: block !important;
+}
+
+.nlp-navigator button {
+    border-radius: 20px;
+    color: white;
+    font-weight: 700;
+    font-size: medium;
+    background-color: rgb(31, 31, 64);
+    padding: 5px;
+}
+.botton-dot{
+    width: 10px;
+}
+
+.nlp-navigator i{
+   align-content: center;
+   align-items: baseline;
+   margin-right: 3px;
+   
+}
+
+.direction-button button {
+    font-weight:300;
+    border-radius: 0px;
+    height: 1px;
+    width: 80px;
+}
+
+#nlp_main_div div{
+    margin-top: 5px;
+}
+
+.instructions{
+    text-align: left;
+    padding: 10px;
+    
+}
+
+ol > li {
+    margin: 3px;
+}
+
+.train_img_display p {
+    padding: 10px;
+    flex: 50%;
+    border-radius: 20px;
+}
+
+.nlp_img {
+    width: 400px;
+    height: 400px;
+}
+
+.plot_bar_img {
+    width: 600px;
+    height: 600px;
+}
+
+.df_row{
+    display: none;
+}

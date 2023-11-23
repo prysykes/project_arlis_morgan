@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+S3NB="mlwb-nbks/emmy"
+S3SM="mlwb-scripts/emmy"
+CTSCRIPT="sync_sm_notebooks.sh"
+CTFILE="notebook-sync-cron"
+
+## Download notebooks from the s3 during bootstrapping the sagemaker instance
+aws s3 sync s3://${S3NB}/ /home/ec2-user/SageMaker/
+chown -R ec2-user:ec2-user /home/ec2-user/SageMaker/
+chown root:root /home/ec2-user/SageMaker/lost+found
+
+## Apply dos2unix to the downloaded script files
+find /home/ec2-user/SageMaker/ -type f -name "*.sh" -exec dos2unix {} \;
+
+## Install crontab to sync notebooks every min from ~/ec2-user/SageMaker to S3 ${S3NB}
+echo "Fetching sync_sagemakernb.sh"
+aws s3 cp s3://${S3SM}/${CTSCRIPT} /home/ec2-user/
+chmod 755 /home/ec2-user/${CTSCRIPT}
+chown ec2-user:ec2-user /home/ec2-user/${CTSCRIPT}
+
+## Apply dos2unix to the downloaded script files
+dos2unix /home/ec2-user/${CTSCRIPT}
+
+echo "Fetching crontab file and copying to cron dir (/etc/cron.d/)"
+aws s3 cp s3://${S3SM}/${CTFILE}  /etc/cron.d/
+
+## Apply dos2unix to the downloaded script files
+dos2unix /etc/cron.d/${CTFILE}
+
