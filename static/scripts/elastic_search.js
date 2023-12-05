@@ -25,6 +25,7 @@ function check_startdate_lt_enddate(start_val, end_val){
 
 function check_long_lat(value){
     let regex = /^\d*\.?\d*$/ //longitude/ latitude format validator
+    value = value.replace('-', '')
     chk_outcome = regex.test(value)
     if (chk_outcome == false){
         throw new Error("Longitude and Latitude must be a float")
@@ -308,6 +309,7 @@ function create_img_containier(cur_img, cur_metrics){
     console.log("img.src", img.src);
     img.width = '300'
     img.height = '300'
+    img.classList.add('es_results')
     //  console.log(`div: ${div} \n img ${img}`);
     div.appendChild(img)
     div.appendChild(metrics_div)

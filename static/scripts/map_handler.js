@@ -3,8 +3,44 @@ let long_box = document.getElementById('elas_long');
 let map_h1 = document.getElementById('map_header');
 let map_display = document.getElementById('map');
 let radius_box = document.getElementById('elas_radius');
+
+var submit_elas_form = document.querySelector('#submit_elas_form')
+
+
+submit_elas_form.addEventListener('click', ()=>{
+    let interval_counter = 0
+    // poll_page_for_esimg()
+
+    poll_img_interval = setInterval(()=>{
+        if (interval_counter>=5){
+            clearInterval(poll_img_interval)
+        }
+        poll_page_for_esimg(interval_counter++);
+    }, 1000)
+
+    
+})
+
 let timer, timeoutVal = 1000; // time it takes to wait on the user to begin typing again
 var map = L.map('map')
+
+function poll_page_for_esimg(interval_counter){
+    var es_results = document.querySelectorAll('.es_results')
+    es_results.forEach((elem)=>{
+        elem.addEventListener('mouseover', ()=>{
+            console.log("hiyoooo");
+        })
+    })
+    // return es_results
+}
+
+// console.log('outer length', es_results.length)
+
+// es_results.forEach((elem)=>{
+//     elem.addEventListener("mouseover", ()=>{
+//         console.log('hi');
+//     })
+// } )
 
 
 function handleEventListenerLat(lat_box, long_box, radius_box){
@@ -45,7 +81,9 @@ function handlekeyUp(element){
         if ((lat_value.length >= 2 && long_value.length) >= 2){
            
             handleMap(lat_value, long_value)
-            console.log(`inside ${element}: lat_val ${lat_value.length} \t radius_val:${radius_box.value} \t long_val: ${long_value.length}`);
+            // var es_results = document.querySelectorAll('.es_results')
+            // console.log('inner length', es_results.length);
+            // console.log(`inside ${element}: lat_val ${lat_value.length} \t radius_val:${radius_box.value} \t long_val: ${long_value.length}`);
             
         }
         else{
@@ -53,6 +91,17 @@ function handlekeyUp(element){
         }
         
     }, timeoutVal)
+}
+
+function img_hover_to_map(lat, long, L, map){
+   if (!map_display.classList.contains('display-none')) {
+        var circle = L.circle([lat, long], {
+            color: 'green',
+            fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: 200
+        }).addTo(map)
+   }
 }
 
 function handleMap(lat, long){
@@ -72,8 +121,9 @@ function handleMap(lat, long){
             color: 'red',
             fillColor: '#f03',
             fillOpacity: 0.5,
-            radius: 400
+            radius: 450
         }).addTo(map);
+        img_hover_to_map(lat, long, L, map);
         
         } else {
             
@@ -99,8 +149,20 @@ function handleMap(lat, long){
 }
 
 
+// console.log('outer length', es_results.length);
+// es_results.forEach((elem)=>{
+//     elem.addEventListener('mouseover', ()=> {
+//         console.log("hiiii");
+//     })
+//     console.log(elem);
+// })
 
 
+
+// es_results.forEach((elem)=>{
+//     console.log(elem);
+// })
+// console.log('es_results', typeof es_results);
 
 
 // lat_box.addEventListener('click', ()=>{

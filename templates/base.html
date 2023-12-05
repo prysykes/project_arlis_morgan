@@ -116,7 +116,7 @@
           <span> Date range format mm/dd/yyyy - mm/dd/yyyy</span> <br>
         </div>
         <span style="color: rgb(80, 8, 8); font-weight: bold;" id="date_error" class="display-none"> </span>
-        <form id="elastic_search_form" action="#" method="post" name="elastic_search_form"> {% csrf_token %}
+        <form id="elastic_search_form" action="{% url 'elastic_search'%}" method="post" name="elastic_search_form"> {% csrf_token %}
           <div id="object">
             <label for="elas_object"> Object Name: </label>
             <select class="alis-pane-button" name="elas_object" id="elas_object">
@@ -231,7 +231,9 @@
          
           <h1>Elastic Search Results</h1>
           <div id="elastic_search_results">
-
+            <div id="es_img_placehold" class="display-none">
+              <img src="not-found.png" width="300" height="300" class="es_results">
+            </div>
             <!-- <div class="elastic_result">
               {{image_url}}
             </div>
