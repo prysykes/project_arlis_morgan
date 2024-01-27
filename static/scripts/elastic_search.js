@@ -13,6 +13,11 @@ const elastic_search_results = document.getElementById("elastic_search_results")
 const elastic_search_div = document.getElementById("elastic_search_div")
 const elastic_search = document.getElementById('elastic_search')
 
+const loading_submit_elas_form = document.getElementById('submit_elas_form')
+const loading = document.getElementById('loading')
+
+
+
 elastic_search_div.addEventListener('click', ()=>{
     elastic_search.classList.toggle('display-none')
 } )
@@ -244,12 +249,14 @@ function unpack_cur_metrics(cur_metrics){
                         if (lat_long == 'latitude'){
                             latitude = GPSInfo['latitude']
                             let p_lat = document.createElement('p')
+                            p_lat.classList.add('mdata_lat')
                             p_lat.innerText = `Latitude: ${latitude}`
                             metadata_div.appendChild(p_lat)
                         } 
                         else if (lat_long == 'longitude'){
                             longitude = GPSInfo['longitude']
                             let p_long = document.createElement('p')
+                            p_long.classList.add('mdata_long')
                             p_long.innerText = `Longitude: ${longitude}`
                             metadata_div.appendChild(p_long)
                         }
@@ -296,7 +303,7 @@ function unpack_cur_metrics(cur_metrics){
     return metric_div
 }
 
-function create_img_containier(cur_img, cur_metrics){
+function create_img_containier(cur_img, cur_metrics, esCounter){
     // console.log("preee", cur_img);
     
     metrics_div = unpack_cur_metrics(cur_metrics)
@@ -310,6 +317,7 @@ function create_img_containier(cur_img, cur_metrics){
     img.width = '300'
     img.height = '300'
     img.classList.add('es_results')
+    img.setAttribute("data-index-number", esCounter)
     //  console.log(`div: ${div} \n img ${img}`);
     div.appendChild(img)
     div.appendChild(metrics_div)
@@ -318,7 +326,22 @@ function create_img_containier(cur_img, cur_metrics){
 
 // create_img_containier()
 
+function show_loading(loading_icon){
+    loading_icon.classList.remove('display-none')
+
+    setTimeout(()=> {
+        loading_icon.classList.add('display-none');
+    }, 90000000)
+}
+
 elastic_search_form.addEventListener("submit", (e)=>{
+    loading.classList.remove('display-none')
+
+    const loading_time_out = setTimeout(()=> {
+        loading.classList.add('display-none');
+    }, 90000000)
+    // loading.classList.remove('display-none')
+   
     e.preventDefault()
     // let elas_object = elas_object.value
     let search_values = {}
@@ -370,19 +393,25 @@ elastic_search_form.addEventListener("submit", (e)=>{
     // console.log("url", url);
     
 
-    fetch_search_endpoint(url, search_values)
+    const fetch_endpoint = fetch_search_endpoint(url, search_values)
     .then((data) =>{
         let img_id_metrics = null
         console.log("gigig",data)
         img_id_metrics = data['img_id_metrics']
-
+        esCounter = 1
+        clearTimeout(loading_time_out)
+        loading.classList.add('display-none');
         for (const imgg in img_id_metrics) {
             let cur_img = imgg
             let cur_metrics = img_id_metrics[cur_img]
-            img_div = create_img_containier(cur_img, cur_metrics)
+            img_div = create_img_containier(cur_img, cur_metrics, esCounter)
             elastic_search_results.appendChild(img_div)
+
+            esCounter ++
             
         }
+
+        
         // img_id_metrics.forEach((cur_url) => {
         //     img_div = create_img_containier(cur_url)
         //     elastic_search_results.appendChild(img_div)
@@ -392,4 +421,6 @@ elastic_search_form.addEventListener("submit", (e)=>{
    
         
     )
+
+   
 }) 

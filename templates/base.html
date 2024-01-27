@@ -8,6 +8,12 @@
     <title></title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
    
     <link rel="stylesheet" href="{% static '/css/styles.css'%}" />
     <link rel="stylesheet" href="{% static '/css/vision.css'%}" />
@@ -224,6 +230,9 @@
       <div class="main-body">
         {% block search_display %}
         <div class="main">
+          <div id="loading" class="result_filter display-none">
+            
+          </div>
           
             <h1 id="map_header" class="display-none">map location</h1>
 
@@ -288,8 +297,10 @@
     <script src="{% static '/scripts/main.js' %}"></script>
     <script src="{% static '/scripts/progress_bar.js' %}"></script>
     <script src="{% static '/scripts/elastic_search.js' %}"></script>
+    <script src="{% static '/scripts/loading_animation.js' %}"></script>
     
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    {% comment %} <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script> {% endcomment %}
     <script src="{% static '/scripts/map_handler.js' %}"></script>
     <script>
       //elastic search script
